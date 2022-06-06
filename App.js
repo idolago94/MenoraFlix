@@ -8,24 +8,18 @@
 
 import React from 'react';
 import type { Node } from 'react';
-import { SafeAreaView, StatusBar, StyleSheet, useColorScheme } from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
 import MainRoot from './src/routes/MainRoot'
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    flex: 1
-  };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    // <SafeAreaView style={backgroundStyle}>
+    <React.Fragment>
+      <StatusBar barStyle={'light-content'} />
       <MainRoot />
-    </SafeAreaView>
+    </React.Fragment>
+    // </SafeAreaView>
   );
 };
 

@@ -1,17 +1,16 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
+import Login from '../screens/Login'
 
 const MainRoot = () => {
     return <View style={s.container}>
-        <Text>MainRoot</Text>
+        <Login />
     </View>
 }
 
 const s = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        flex: 1
     }
 })
 
