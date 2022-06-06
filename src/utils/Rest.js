@@ -20,9 +20,9 @@ class Rest {
         headers['Accept'] = 'application/json'
         headers['Content-Type'] = 'application/json'
         headers['Access-Control-Allow-Origin'] = '*'
-        if (UserStore.getHSToken) {
-            headers['HsToken'] = UserStore.getHSToken
-        }
+        // if (UserStore.getHSToken) {
+        //     headers['HsToken'] = UserStore.getHSToken
+        // }
         if (extraHeaders) {
             Object.keys(extraHeaders).map(k => headers[k] = extraHeaders[k])
         }
@@ -30,7 +30,17 @@ class Rest {
         if (params) {
             url = this.withQuery(url, params)
         }
+
+        this.ReqData = {
+            url, init: {
+                method: method,
+                headers: headers,
+                body: body != null && !file ? JSON.stringify(body) : file ? body : null,
+            }
+        }
+
         try {
+            console.log(`### -> Rest -> send -> this.ReqData.url, this.ReqData.init`, this.ReqData.url, this.ReqData.init)
             let response = await fetch(this.ReqData.url, this.ReqData.init)
 
             if (response.status == 401) {

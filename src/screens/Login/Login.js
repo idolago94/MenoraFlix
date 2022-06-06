@@ -1,7 +1,9 @@
+import { isEmpty } from 'lodash'
 import React from 'react'
 import { StyleSheet, ImageBackground, Text, View, TextInput, TouchableOpacity } from 'react-native'
-import { Colors } from '../../utils/Enums'
+import { Colors, RegexType } from '../../utils/Enums'
 import imgSrc from '../../utils/Images'
+import Api from '../../utils/Api'
 
 const LoginModes = {
     LOGIN: 'Login',
@@ -10,6 +12,48 @@ const LoginModes = {
 
 const Login = () => {
     const [mode, setMode] = React.useState(LoginModes.SIGNIN)
+    const [credentials, setCredentials] = React.useState({ username: '', password: '' })
+    const [error, setError] = React.useState({})
+
+    const _usernameValid = () => (credentials.username.length < 8 || !RegexType.LETTERS.test(credentials.username)) && ({ username: 'Username is not valid.' })
+    const _passwordValid = () => (credentials.password.length < 8 || !RegexType.PASSWORD.test(credentials.password)) && ({ password: 'Password is not valid' })
+
+
+    const handleSubmit = async () => {
+        try {
+            const errors = {
+                ..._usernameValid(),
+                ..._passwordValid()
+            }
+            if (!isEmpty(errors)) {
+                setError(errors)
+                return
+            }
+
+            switch (mode) {
+                case LoginModes.SIGNIN:
+                    await Api.Register(credentials)
+                    setCredentials({ username: '', password: '' })
+                    setMode(LoginModes.LOGIN)
+                    break;
+                case LoginModes.LOGIN:
+                    const res = await Api.Login(credentials)
+                    setCredentials({ username: '', password: '' })
+                    alert('success !!')
+                    // enter the entire app
+                    break;
+                default: break;
+            }
+        } catch (e) {
+            console.log(`### -> handleSubmit -> e`, e)
+            setError({ server: e.error_message })
+        }
+    }
+
+    const onInputChange = (name, value) => {
+        setCredentials({ ...credentials, [name]: value })
+        setError({})
+    }
 
     return <ImageBackground style={s.container} source={imgSrc.login_bg} resizeMode='cover'>
         <Text style={s.title}>Menora Flix</Text>
@@ -17,14 +61,18 @@ const Login = () => {
             <Text style={s.modeText}>{mode}</Text>
             <View style={s.inputWrap}>
                 <Text style={s.inputLabel}>username</Text>
-                <TextInput style={s.input} />
+                <TextInput value={credentials.username} onChangeText={e => onInputChange('username', e)} style={s.input} />
             </View>
+            <Text style={s.error}>{error?.username}</Text>
+
             <View style={s.inputWrap}>
                 <Text style={s.inputLabel}>password</Text>
-                <TextInput style={s.input} />
+                <TextInput value={credentials.password} secureTextEntry onChangeText={e => onInputChange('password', e)} style={s.input} />
             </View>
+            <Text style={s.error}>{error?.password}</Text>
+            <Text style={s.error}>{error?.server}</Text>
 
-            <TouchableOpacity style={s.confirmButton}>
+            <TouchableOpacity onPress={handleSubmit} style={s.confirmButton}>
                 <Text style={s.buttonText}>{mode}</Text>
             </TouchableOpacity>
         </View>
@@ -53,7 +101,6 @@ const s = StyleSheet.create({
     },
     inputWrap: {
         backgroundColor: 'rgb(51, 51, 51)',
-        marginBottom: 20,
         borderRadius: 2,
         padding: 5
     },
@@ -75,6 +122,10 @@ const s = StyleSheet.create({
         fontSize: 23,
         textAlign: 'center',
         paddingVertical: 12
+    },
+    error: {
+        marginBottom: 15,
+        color: 'red'
     }
 })
 

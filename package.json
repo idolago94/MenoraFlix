@@ -11,6 +11,7 @@
     "rix": "export ENVFILE=.env.dev && react-native run-ios --simulator='iPhone X'"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-config": "^1.4.5"
