@@ -11,11 +11,14 @@
     "rix": "export ENVFILE=.env.dev && react-native run-ios --simulator='iPhone X'"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
     "lodash": "^4.17.21",
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-config": "^1.4.5",
-    "react-native-pure-jwt": "^3.0.0"
+    "react-native-pure-jwt": "^3.0.0",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",

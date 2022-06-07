@@ -1,10 +1,11 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import Login from '../screens/Login'
+import { connect } from 'react-redux'
 
-const MainRoot = () => {
+const MainRoot = (props) => {
     return <View style={s.container}>
-        <Login />
+        {props.isConnected ? <Text>LoggedIn</Text> : <Login />}
     </View>
 }
 
@@ -14,4 +15,10 @@ const s = StyleSheet.create({
     }
 })
 
-export default MainRoot
+const mapStateToProps = state => {
+    return {
+        isConnected: state.user.isConnected
+    }
+}
+
+export default connect(mapStateToProps)(MainRoot)

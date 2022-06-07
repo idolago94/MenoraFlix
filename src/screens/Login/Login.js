@@ -5,13 +5,15 @@ import { Colors, RegexType } from '../../utils/Enums'
 import imgSrc from '../../utils/Images'
 import Api from '../../utils/Api'
 import { getJWTToken } from '../../utils/Tools'
+import { login } from '../../actions/Login'
+import { connect } from 'react-redux'
 
 const LoginModes = {
     LOGIN: 'Login',
     SIGNIN: 'Signin'
 }
 
-const Login = () => {
+const Login = (props) => {
     const [mode, setMode] = React.useState(LoginModes.SIGNIN)
     const [credentials, setCredentials] = React.useState({ username: '', password: '' })
     const [error, setError] = React.useState({})
@@ -42,8 +44,7 @@ const Login = () => {
                 case LoginModes.LOGIN:
                     const res = await Api.Login({ token })
                     setCredentials({ username: '', password: '' })
-                    alert('success !!')
-                    // enter the entire app
+                    props.login()
                     break;
                 default: break;
             }
@@ -136,4 +137,12 @@ const s = StyleSheet.create({
     }
 })
 
-export default Login
+const mapDispatchToProps = dispatch => {
+    return {
+        login: () => {
+            dispatch(login())
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Login)
