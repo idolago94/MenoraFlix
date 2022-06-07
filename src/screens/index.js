@@ -1,6 +1,10 @@
 
 import Login from './Login'
+import Home from './Home'
+import Favourite from './Favourite'
 
 export {
-    Login
+    Login,
+    Home,
+    Favourite
 }

@@ -1,5 +1,6 @@
 export const Colors = {
-    PRIMARY: 'white'
+    PRIMARY: 'white',
+    SCREEN_BG: 'black'
 }
 
 export const RegexType = {
