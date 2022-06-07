@@ -31,7 +31,7 @@ const Login = () => {
                 return
             }
 
-            const token = await getJWTToken()
+            const token = await getJWTToken(credentials)
 
             switch (mode) {
                 case LoginModes.SIGNIN:
@@ -73,11 +73,11 @@ const Login = () => {
                 <TextInput value={credentials.password} secureTextEntry onChangeText={e => onInputChange('password', e)} style={s.input} />
             </View>
             <Text style={s.error}>{error?.password}</Text>
-            <Text style={s.error}>{error?.server}</Text>
 
             <TouchableOpacity onPress={handleSubmit} style={s.confirmButton}>
                 <Text style={s.buttonText}>{mode}</Text>
             </TouchableOpacity>
+            <Text style={s.serverError}>{error?.server}</Text>
         </View>
     </ImageBackground>
 }
@@ -129,6 +129,10 @@ const s = StyleSheet.create({
     error: {
         marginBottom: 15,
         color: 'red'
+    },
+    serverError: {
+        color: Colors.PRIMARY,
+        textAlign: 'center'
     }
 })
 

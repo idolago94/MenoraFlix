@@ -43,12 +43,7 @@ class Rest {
             let response = await fetch(this.ReqData.url, this.ReqData.init)
 
             if (response.status == 401) {
-                try {
-                    throw response
-                } catch (e) {
-                    console.log("401 Rest -> send -> error", e)
-                    throw e
-                }
+                return Promise.reject(await response.json())
             }
             if (response.status == 400) {
                 return Promise.reject(await response.json())
