@@ -1,10 +1,19 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import {
+    View, Text, StyleSheet, FlatList
+} from 'react-native';
 import { connect } from 'react-redux';
 import Movie from '../../components/Movie/Movie';
 import { Colors } from '../../utils/Enums';
+import { SetFavMoviesShow } from '../../actions/SetFavMoviesShow'
 
 const Favourite = (props) => {
+    React.useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', props.setAllMoviesShown);
+
+        return unsubscribe;
+    }, [props.navigation])
+
     return (
         <View style={s.container}>
             <FlatList
@@ -40,4 +49,12 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Favourite)
+const mapDispatchToProps = dispatch => {
+    return {
+        setAllMoviesShown: () => {
+            dispatch(SetFavMoviesShow())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favourite)
