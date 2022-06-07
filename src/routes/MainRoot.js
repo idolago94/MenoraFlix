@@ -6,7 +6,7 @@ import AppNavigator from './AppNavigator'
 
 const MainRoot = (props) => {
     return <View style={s.container}>
-        {props.isConnected ? <AppNavigator/> : <Login />}
+        {props.isConnected||true ? <AppNavigator/> : <Login />}
     </View>
 }
 

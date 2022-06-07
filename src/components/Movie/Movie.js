@@ -1,14 +1,23 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
 import { Colors } from '../../utils/Enums'
+import { ToggleFavMovie } from '../../actions/ToggleFavMovie'
+import imgSrc from '../../utils/Images'
 
 const Movie = (props) => {
-    const { Title, Year, imdbID, Type, Poster, showDetails, onPress } = props
+    const { data, showDetails, onPress } = props
+    const { Title, Year, imdbID, Type, Poster } = data
     const WrapComponent = onPress ? TouchableOpacity : View
     return (
-        <WrapComponent style={s.container} onPress={onPress}>
+        <View style={s.container}>
             <View style={s.posterView}>
-                <Image style={[s.poster, showDetails && s.bigPoster]} source={{ uri: Poster }} />
+                <WrapComponent onPress={onPress}>
+                    <Image style={[s.poster, showDetails && s.bigPoster]} source={{ uri: Poster }} />
+                </WrapComponent>
+                {!showDetails && <TouchableOpacity onPress={() => props.toggleMovie(data)} style={s.posterFooter}>
+                    <Image style={s.favIcon} source={props.favouriteMovies.includes(data) ? imgSrc.star_yellow : imgSrc.star} />
+                </TouchableOpacity>}
             </View>
             {showDetails && <View style={s.detailsContainer}>
                 <Text style={[s.movieText, s.movieTitleText]}>{Title}</Text>
@@ -16,7 +25,7 @@ const Movie = (props) => {
                 <Text style={s.movieText}>imdbID: {imdbID}</Text>
                 <Text style={s.movieText}>Type: {Type}</Text>
             </View>}
-        </WrapComponent>
+        </View>
     )
 }
 
@@ -32,7 +41,7 @@ const s = StyleSheet.create({
         height: 180
     },
     bigPoster: {
-        width: Dimensions.get('window').width/2 - 10
+        width: Dimensions.get('window').width / 2 - 10
     },
     movieText: {
         color: Colors.PRIMARY
@@ -47,7 +56,29 @@ const s = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         flexGrow: 1
+    },
+    posterFooter: {
+        backgroundColor: 'rgb(50,50,50)',
+        alignItems: 'center'
+    },
+    favIcon: {
+        height: 30,
+        width: 30
     }
 })
 
-export default Movie
+const mapStateToProps = state => {
+    return {
+        favouriteMovies: state.user.favouriteMovies
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleMovie: (movie) => {
+            dispatch(ToggleFavMovie(movie))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Movie)

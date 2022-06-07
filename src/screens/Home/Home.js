@@ -36,20 +36,20 @@ const Home = (props) => {
             <FlatList
                 keyExtractor={(item, index) => item.title}
                 data={props.recommendMovies}
-                renderItem={({ item, index }) => <Movie {...item} onPress={() => setSelectedMovie(item)} />}
+                renderItem={({ item, index }) => <Movie data={item} onPress={() => setSelectedMovie(item)} />}
                 horizontal
             />
 
             <View style={s.descContainer}>
                 <Text style={s.title}>Movie Description</Text>
-                {selectedMovie && <Movie {...selectedMovie} showDetails />}
+                {selectedMovie && <Movie data={selectedMovie} showDetails />}
             </View>
 
             <Text style={s.title}>New Movies</Text>
             <FlatList
                 keyExtractor={(item, index) => item.title}
                 data={props.newMovies}
-                renderItem={({ item, index }) => <Movie {...item} onPress={() => setSelectedMovie(item)} />}
+                renderItem={({ item, index }) => <Movie data={item} onPress={() => setSelectedMovie(item)} />}
                 horizontal
             />
         </ScrollView>

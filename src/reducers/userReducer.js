@@ -1,7 +1,9 @@
-import { LOGIN, LOGOUT } from '../actions/types';
+import { xor } from 'lodash';
+import { LOGIN, LOGOUT, TOGGLE_FAV_MOVIE } from '../actions/types';
 
 const initialState = {
-  isConnected: false
+  isConnected: false,
+  favouriteMovies: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -11,6 +13,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isConnected: action.payload
+      };
+    case TOGGLE_FAV_MOVIE:
+      return {
+        ...state,
+        favouriteMovies: xor(state.favouriteMovies, [action.payload])
       };
     default:
       return state;
