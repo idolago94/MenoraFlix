@@ -40,7 +40,6 @@ class Rest {
         }
 
         try {
-            console.log(`### -> Rest -> send -> this.ReqData.url, this.ReqData.init`, this.ReqData.url, this.ReqData.init)
             let response = await fetch(this.ReqData.url, this.ReqData.init)
 
             if (response.status == 401) {
@@ -79,10 +78,6 @@ class Rest {
             }
 
             let responseJson = response.headers.map['content-type'].includes('application/json') ? await response.json() : response.statusText
-            let token = response.headers.map.hstoken
-            if (token) {
-                // UserStore.setHSToken(token)
-            }
             return responseJson
         } catch (error) {
             throw error

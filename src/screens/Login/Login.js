@@ -4,6 +4,7 @@ import { StyleSheet, ImageBackground, Text, View, TextInput, TouchableOpacity } 
 import { Colors, RegexType } from '../../utils/Enums'
 import imgSrc from '../../utils/Images'
 import Api from '../../utils/Api'
+import { getJWTToken } from '../../utils/Tools'
 
 const LoginModes = {
     LOGIN: 'Login',
@@ -30,14 +31,16 @@ const Login = () => {
                 return
             }
 
+            const token = await getJWTToken()
+
             switch (mode) {
                 case LoginModes.SIGNIN:
-                    await Api.Register(credentials)
+                    await Api.Register({ token })
                     setCredentials({ username: '', password: '' })
                     setMode(LoginModes.LOGIN)
                     break;
                 case LoginModes.LOGIN:
-                    const res = await Api.Login(credentials)
+                    const res = await Api.Login({ token })
                     setCredentials({ username: '', password: '' })
                     alert('success !!')
                     // enter the entire app
