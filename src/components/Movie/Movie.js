@@ -6,7 +6,7 @@ import { ToggleFavMovie } from '../../actions/ToggleFavMovie'
 import imgSrc from '../../utils/Images'
 
 const Movie = (props) => {
-    const { data, showDetails, onPress } = props
+    const { data, showDetails, onPress, showStarButton } = props
     const { Title, Year, imdbID, Type, Poster } = data
     const WrapComponent = onPress ? TouchableOpacity : View
     return (
@@ -15,7 +15,7 @@ const Movie = (props) => {
                 <WrapComponent onPress={onPress}>
                     <Image style={[s.poster, showDetails && s.bigPoster]} source={{ uri: Poster }} />
                 </WrapComponent>
-                {!showDetails && <TouchableOpacity onPress={() => props.toggleMovie(data)} style={s.posterFooter}>
+                {showStarButton && <TouchableOpacity onPress={() => props.toggleMovie(data)} style={s.posterFooter}>
                     <Image style={s.favIcon} source={props.favouriteMovies.includes(data) ? imgSrc.star_yellow : imgSrc.star} />
                 </TouchableOpacity>}
             </View>

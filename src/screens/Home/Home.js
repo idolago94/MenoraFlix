@@ -36,7 +36,7 @@ const Home = (props) => {
             <FlatList
                 keyExtractor={(item, index) => item.title}
                 data={props.recommendMovies}
-                renderItem={({ item, index }) => <Movie data={item} onPress={() => setSelectedMovie(item)} />}
+                renderItem={({ item, index }) => <Movie data={item} onPress={() => setSelectedMovie(item)} showStarButton />}
                 horizontal
             />
 
@@ -49,7 +49,7 @@ const Home = (props) => {
             <FlatList
                 keyExtractor={(item, index) => item.title}
                 data={props.newMovies}
-                renderItem={({ item, index }) => <Movie data={item} onPress={() => setSelectedMovie(item)} />}
+                renderItem={({ item, index }) => <Movie data={item} onPress={() => setSelectedMovie(item)} showStarButton />}
                 horizontal
             />
         </ScrollView>
