@@ -1,17 +1,13 @@
 import { isEmpty } from 'lodash'
 import React from 'react'
 import { StyleSheet, ImageBackground, Text, View, TextInput, TouchableOpacity } from 'react-native'
-import { Colors, RegexType } from '../../utils/Enums'
+import { Colors, LoginModes, RegexType } from '../../utils/Enums'
 import imgSrc from '../../utils/Images'
 import Api from '../../utils/Api'
 import { getJWTToken } from '../../utils/Tools'
 import { login } from '../../actions/Login'
 import { connect } from 'react-redux'
 
-const LoginModes = {
-    LOGIN: 'Login',
-    SIGNIN: 'Signin'
-}
 
 const Login = (props) => {
     const [mode, setMode] = React.useState(LoginModes.SIGNIN)
@@ -59,10 +55,13 @@ const Login = (props) => {
         setError({})
     }
 
+    const toggleMode = () => setMode(mode == LoginModes.LOGIN ? LoginModes.SIGNIN : LoginModes.LOGIN)
+
     return <ImageBackground style={s.container} source={imgSrc.login_bg} resizeMode='cover'>
         <Text style={s.title}>Menora Flix</Text>
         <View style={s.content}>
             <Text style={s.modeText}>{mode}</Text>
+            <Text style={s.changeModeLink} onPress={toggleMode}>{mode == LoginModes.LOGIN ? 'Not a memeber yet? Signin' : 'Allready have accont? Login'}</Text>
             <View style={s.inputWrap}>
                 <Text style={s.inputLabel}>username</Text>
                 <TextInput value={credentials.username} onChangeText={e => onInputChange('username', e)} style={s.input} />
@@ -100,8 +99,7 @@ const s = StyleSheet.create({
     },
     modeText: {
         color: Colors.PRIMARY,
-        fontSize: 30,
-        paddingBottom: 20
+        fontSize: 30
     },
     inputWrap: {
         backgroundColor: 'rgb(51, 51, 51)',
@@ -134,6 +132,10 @@ const s = StyleSheet.create({
     serverError: {
         color: Colors.PRIMARY,
         textAlign: 'center'
+    },
+    changeModeLink: {
+        color: Colors.PRIMARY,
+        paddingBottom: 20
     }
 })
 
