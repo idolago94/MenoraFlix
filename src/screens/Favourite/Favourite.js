@@ -21,7 +21,7 @@ const Favourite = (props) => {
                 data={props.favouriteMovies}
                 renderItem={({ item, index }) => <View style={s.movieContainer}>
                     <Text style={s.movieTitle}>{item.Title}</Text>
-                    <Movie data={item} onPress={() => setSelectedMovie(item)} showDetails />
+                    <Movie data={item} showDetails />
                 </View>}
             />
         </View>
